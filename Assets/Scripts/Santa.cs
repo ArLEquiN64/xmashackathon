@@ -6,6 +6,8 @@ public class Santa : MonoBehaviour
 {
     public float PresentTimeSpan=0.3f;
     public GameObject PresentBox;
+    public float PresentTimeSpanMin = 0.5f;
+    public float PresentTimeSpanMax = 2.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +28,7 @@ public class Santa : MonoBehaviour
             // 1秒毎にループします
             yield return new WaitForSeconds(this.PresentTimeSpan);
             this.generatePresent();
-            this.PresentTimeSpan = Random.Range(0.5f, 2f);
+            this.PresentTimeSpan = Random.Range(PresentTimeSpanMin, PresentTimeSpanMax);
         }
     }
 
