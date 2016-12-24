@@ -9,8 +9,10 @@ public class GameManager : MonoBehaviour {
 	public static float RightLimit = 10;
 	public static float UpLimit = 7.232172f;
 	public static float Z=-26.64f;//基本のZ座標
+    public static float Y = 3.1f;
 
-	public static GameManager Instance;
+
+    public static GameManager Instance;
 
 	public Canvas Title;
 	public GameObject Container;//プレイヤーとか。

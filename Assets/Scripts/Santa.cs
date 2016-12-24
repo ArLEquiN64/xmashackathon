@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Santa : MonoBehaviour
 {
-    public float PresentTimeSpan=0.3f;
+    public float PresentTimeSpan;
     public GameObject PresentBox;
     public float PresentTimeSpanMin = 0.5f;
     public float PresentTimeSpanMax = 2.0f;
 
 	// Use this for initialization
 	void Start () {
-	    StartCoroutine(genPresent());
+        PresentTimeSpan= Random.Range(PresentTimeSpanMin, PresentTimeSpanMax);
+        StartCoroutine(genPresent());
 	}
 	
 	// Update is called once per frame
