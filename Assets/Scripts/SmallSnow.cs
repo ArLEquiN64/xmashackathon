@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Snow : MonoBehaviour {
+public class SmallSnow : MonoBehaviour {
 	/*
 	 * 移動管理。当たり判定はプレイヤーで実装。
 	 * 
@@ -15,10 +15,10 @@ public class Snow : MonoBehaviour {
 	void Start () {
 		Destroy (this.gameObject, 5);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
+
 		this.Direction.Normalize ();
 		this.transform.position += this.Direction * this.Speed;
 	}
