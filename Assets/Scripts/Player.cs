@@ -80,15 +80,15 @@ public class Player: MonoBehaviour {
                 var item = other.gameObject.GetComponent<ItemBase>();
                 item.GetItem(this);
             }
-            if (other.tag == "Umbrella") {
-                Debug.Log("Umbrella enter.");
+            if (other.tag == "Passenger") {
+                Debug.Log("Passenger enter.");
                 IsUnderUmbrella = true;
             }
         }
     }
     private void OnTriggerExit(Collider other) {
-        if (other.tag == "Umbrella") {
-            Debug.Log("Umbrella leave.");
+        if (other.tag == "Passenger") {
+            Debug.Log("Passenger leave.");
             IsUnderUmbrella = false;
         }
     }
