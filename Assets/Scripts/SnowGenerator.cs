@@ -43,7 +43,12 @@ public class SnowGenerator : MonoBehaviour {
 		var snow2 = Instantiate (this.Snow, new Vector3 (x2, GameManager.UpLimit+10.25f,GameManager.Z),Quaternion.identity,this.transform);
 		for (int i = 0; i < 25; i++) {
 			var sx = Random.Range (GameManager.LeftLimit-10, GameManager.RightLimit+10);
-			var sz = Random.Range (-20, GameManager.Z-5);
+			var sz = Random.Range (-20, GameManager.Z+1);
+			var ssnow =  Instantiate (SmallSnow, new Vector3 (sx, GameManager.UpLimit+10f,sz),Quaternion.identity,this.transform);
+		}
+		for (int i = 0; i < 10; i++) {
+			var sx = Random.Range (GameManager.LeftLimit-10, GameManager.RightLimit+10);
+			var sz = Random.Range (GameManager.Z-1, GameManager.Z-10);
 			var ssnow =  Instantiate (SmallSnow, new Vector3 (sx, GameManager.UpLimit+10f,sz),Quaternion.identity,this.transform);
 		}
 	}
