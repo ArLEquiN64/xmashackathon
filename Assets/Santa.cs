@@ -13,7 +13,8 @@ public class Santa : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		var sin = Mathf.Sin (Time.time)*10;
+		this.transform.position = new Vector3(sin,this.transform.position.y,0);
 	}
 
 	public void generatePresent(){//プレゼント生成
