@@ -50,6 +50,8 @@ public class Player: MonoBehaviour {
         }
         if (other.tag == "Item") {
             Debug.Log("Item hit.");
+			var item = other.gameObject.GetComponent<ItemBase> ();
+			item.GetItem (this);
         }
         if (other.tag == "Umbrella") {
             Debug.Log("Umbrella enter.");
