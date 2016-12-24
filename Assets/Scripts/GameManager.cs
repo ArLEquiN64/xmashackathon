@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-	public static float LeftLimit = -10;//画面端
-	public static float RightLimit = 10;
+	public static float LeftLimit = -4.65f;//画面端
+	public static float RightLimit = 6.7f;
 	public static float UpLimit = 7.232172f;
 	public static float Z=-26.64f;//基本のZ座標
     public static float Y = 3.1f;

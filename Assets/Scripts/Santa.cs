@@ -9,16 +9,21 @@ public class Santa : MonoBehaviour
     public float PresentTimeSpanMin = 0.5f;
     public float PresentTimeSpanMax = 2.0f;
 
+	private float _center;
+	private float _amplitude;
+
 	// Use this for initialization
 	void Start () {
+		this._center = (GameManager.LeftLimit + GameManager.RightLimit) / 2;
+		this._amplitude = (GameManager.RightLimit - GameManager.LeftLimit) / 2;
         PresentTimeSpan= Random.Range(PresentTimeSpanMin, PresentTimeSpanMax);
         StartCoroutine(genPresent());
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		var sin = Mathf.Sin (Time.time)*10;
-		this.transform.position = new Vector3(sin,this.transform.position.y,GameManager.Z);
+		var sin = Mathf.Sin (Time.time)*this._amplitude;
+		this.transform.position = new Vector3(sin+this._center,this.transform.position.y,GameManager.Z);
 	}
 
     private IEnumerator genPresent()
