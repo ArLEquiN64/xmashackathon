@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 
 	public static float LeftLimit = -10;//画面端
 	public static float RightLimit = 10;
+	public static float UpLimit = 6;
 
 	// Use this for initialization
 	void Start () {
