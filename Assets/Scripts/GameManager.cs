@@ -44,6 +44,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void GameFinish(){
+		this.GameFinish ("");
+	}
+	public void GameFinish(string message){
 		//ゲーム終了
 		SnowGenerator.ClearSnowCores ();
 		var score = this.PlayTime;
