@@ -9,10 +9,16 @@ public class GameManager : MonoBehaviour {
 	public static float UpLimit = 7.232172f;
 	public static float Z=-26.64f;//基本のZ座標
 
+	public static GameManager Instance;
+
 	public Canvas Title;
 	public GameObject Container;//プレイヤーとか。
 
 	private float _startTime = -1;
+
+	void Start(){
+		GameManager.Instance = this;
+	}
 
 	public void GameStart(){
 		//ゲーム開始
