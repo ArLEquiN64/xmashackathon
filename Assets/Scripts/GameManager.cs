@@ -9,29 +9,33 @@ public class GameManager : MonoBehaviour {
 	public static float UpLimit = 7.232172f;
 	public static float Z=-26.64f;//基本のZ座標
 
+	public Canvas Title;
+	public GameObject Container;//プレイヤーとか。
 
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
+	private float _startTime = -1;
 
 	public void GameStart(){
 		//ゲーム開始
+		this._startTime = Time.time;
+		this.Title.enabled = false;
+		this.Container.SetActive (true);
+
 	}
 
 	public void GameFinish(){
 		//ゲーム終了
+		this.Container.SetActive (false);
+		this.Title.enabled = true;
+		this._startTime = -1;
 	}
 	public float PlayTime{
 		get{
-			return Time.deltaTime;//ゲーム開始からの時間TODO:実装
+			return Time.time-this._startTime;//ゲーム開始からの時間TODO:実装
+		}
+	}
+	public bool isPlaying{
+		get{
+			return this._startTime > 0;
 		}
 	}
 
