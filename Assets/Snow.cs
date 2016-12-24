@@ -8,6 +8,9 @@ public class Snow : MonoBehaviour {
 	 * 
 	*/
 
+	public Vector3 Direction;//移動方向
+	public float Speed;//速度
+
 	// Use this for initialization
 	void Start () {
 		
@@ -15,6 +18,7 @@ public class Snow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		this.Direction.Normalize ();
+		this.transform.position += this.Direction * this.Speed;
 	}
 }
