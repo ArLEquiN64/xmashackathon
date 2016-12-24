@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviour {
 	public GameObject Container;//プレイヤーとか。
 	public Text ScoreText;
 	public Text PlayingScoreText;
+	public Player Player;
+
+	public Text HPText;
+	public Text PresentText;
 
 	private float _startTime = -1;
 	private float _hiScore = 0;
@@ -26,7 +30,9 @@ public class GameManager : MonoBehaviour {
 		GameManager.Instance = this;
 	}
 	void Update(){
-		this.PlayingScoreText.text = string.Format("score:{0}",this.PlayTime);
+		this.PlayingScoreText.text = string.Format("score: {0}",this.PlayTime);
+		this.HPText.text = string.Format("Life: {0}",this.Player.Life);
+		this.PresentText.text = string.Format("Presents: {0}",this.Player.HasPresents);
 	}
 
 	public void GameStart(){
