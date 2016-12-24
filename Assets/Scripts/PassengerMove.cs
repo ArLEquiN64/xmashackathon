@@ -8,7 +8,7 @@ public class PassengerMove: MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-		if (this.Speed < 0)
+		if (this.Speed > 0)
         {
             this.transform.rotation = Quaternion.Euler(0,90,0);
         }
@@ -26,7 +26,7 @@ public class PassengerMove: MonoBehaviour
 	    }
 	    else
 	    {
-	        this.transform.position +=new Vector3(-1*this.Speed,0,0);
+	        this.transform.position +=new Vector3(this.Speed,0,0);
 	    }
         
     }

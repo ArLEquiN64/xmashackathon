@@ -5,7 +5,7 @@ using UnityEngine;
 public class PassengerManager : MonoBehaviour {
 
     public float PassengerTimeSpan;//通行人が生成される間隔
-    public GameObject Passenger;
+    public PassengerMove Passenger;
     public float PassengerTimeSpanMin;
     public float PassengerTimeSpanMax;
 
@@ -36,13 +36,14 @@ public class PassengerManager : MonoBehaviour {
     {
         if(passengerdirection())
         {
-            var Passenger1= Instantiate(this.Passenger, new Vector3(GameManager.LeftLimit,GameManager.Y, GameManager.Z),
-            Quaternion.identity, this.transform);
+            var passenger1= Instantiate(this.Passenger, new Vector3(GameManager.LeftLimit,GameManager.Y, GameManager.Z),Quaternion.identity, this.transform);
+            passenger1.Speed = 0.1f;
+
         }
         else
         {
-            var Passenger1= Instantiate(this.Passenger, new Vector3(GameManager.RightLimit,GameManager.Y, GameManager.Z),
-            Quaternion.identity, this.transform);
+            var passenger1= Instantiate(this.Passenger, new Vector3(GameManager.RightLimit,GameManager.Y, GameManager.Z),Quaternion.identity, this.transform);
+            passenger1.Speed = -0.1f;
         }
     }
 
