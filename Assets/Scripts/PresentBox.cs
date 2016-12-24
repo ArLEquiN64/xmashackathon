@@ -9,7 +9,7 @@ public class PresentBox : MonoBehaviour {
 	*/
 
     public Vector3 Direction = new Vector3(0, -1, 0);//移動方向
-    public float Speed = 0.1f;//速度
+    public float Speed = 0.03f;//速度
 
     // Use this for initialization
     void Start () {
