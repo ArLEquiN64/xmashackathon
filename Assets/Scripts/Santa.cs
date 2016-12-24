@@ -11,13 +11,22 @@ public class Santa : MonoBehaviour
 
 	private float _center;
 	private float _amplitude;
+	private IEnumerator _routine;
+
+	void OnEnable()
+	{
+		if (this._routine != null)
+		{
+			StartCoroutine(this._routine);
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
 		this._center = (GameManager.LeftLimit + GameManager.RightLimit) / 2;
 		this._amplitude = (GameManager.RightLimit - GameManager.LeftLimit) / 2;
         PresentTimeSpan= Random.Range(PresentTimeSpanMin, PresentTimeSpanMax);
-        StartCoroutine(genPresent());
+		StartCoroutine(this._routine = this.genPresent());
 	}
 	
 	// Update is called once per frame
@@ -41,6 +50,7 @@ public class Santa : MonoBehaviour
 
     public void generatePresent(){//プレゼント生成
 		Instantiate (this.PresentBox, this.transform.position,Quaternion.identity);
+		Debug.Log ("asdasdasdasdasdasdasdasdas");
 	}
 
 }
