@@ -8,8 +8,8 @@ public class Snow : MonoBehaviour {
 	 * 
 	*/
 
-	public Vector3 Direction;//移動方向
-	public float Speed;//速度
+	public Vector3 Direction=new Vector3(0,-1,0);//移動方向
+	public float Speed=1;//速度
 
 	// Use this for initialization
 	void Start () {
