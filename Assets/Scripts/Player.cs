@@ -35,7 +35,6 @@ public class Player: MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log(other);
         if (other.tag == "Snow") {
             Debug.Log("Snow hit.");
             Life -= 1;

@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 	public Text PlayingScoreText;
 
 	private float _startTime = -1;
+	private float _hiScore = 0;
 
 	void Start(){
 		GameManager.Instance = this;
@@ -38,9 +39,12 @@ public class GameManager : MonoBehaviour {
 
 	public void GameFinish(){
 		//ゲーム終了
+		var score = this.PlayTime;
+		this._hiScore = Mathf.Max (this._hiScore, score);
 		this.Container.SetActive (false);
 		this.Title.enabled = true;
-		this.ScoreText.text = string.Format("Score:{0}",this.PlayTime);
+
+		this.ScoreText.text = string.Format("HiScore:{0}\nScore:{1}",this._hiScore,score);
 		this._startTime = -1;
 	}
 	public float PlayTime{
