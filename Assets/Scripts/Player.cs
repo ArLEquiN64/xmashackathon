@@ -9,6 +9,8 @@ public class Player: MonoBehaviour {
     public bool IsUnderUmbrella = false;
     public int HasPresents = 0;
 
+    public bool IsRun = false;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -16,18 +18,22 @@ public class Player: MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        IsRun = false;
         if (Input.GetKey("right")) {
             transform.rotation = Quaternion.Euler(0, 90, 0);
             if (transform.position.x < GameManager.RightLimit) {
                 transform.position += new Vector3(Speed, 0, 0);
             }
+            IsRun = true;
         }
         if (Input.GetKey("left")) {
             transform.rotation = Quaternion.Euler(0, -90, 0);
             if (transform.position.x > GameManager.LeftLimit) {
                 transform.position += new Vector3(-Speed, 0, 0);
             }
+            IsRun = true;
         }
+        GetComponent<Animator>().SetBool("Run", IsRun);
 
         if (Input.GetKey("up")) {
 
@@ -39,8 +45,10 @@ public class Player: MonoBehaviour {
             Debug.Log("Snow hit.");
 			Destroy (other.gameObject);
             Life -= 1;
-            if(Life < 0) {
+            GetComponent<Animator>().SetTrigger("Damage");
+            if (Life < 0) {
                 GameManager.Instance.GameFinish();
+                GetComponent<Animator>().SetTrigger("Death");
                 Life = 3;
             }
         }
