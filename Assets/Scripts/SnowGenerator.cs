@@ -27,7 +27,7 @@ public class SnowGenerator : MonoBehaviour {
 	}
 	private void generateSnow(){
 		var x = Random.Range (GameManager.LeftLimit, GameManager.RightLimit);
-		var snow = Instantiate (this.Snow, new Vector3 (x, GameManager.UpLimit, this.transform.position.z),Quaternion.identity,this.transform);
+		var snow = Instantiate (this.Snow, new Vector3 (x, GameManager.UpLimit,GameManager.Z),Quaternion.identity,this.transform);
 
 	}
 }

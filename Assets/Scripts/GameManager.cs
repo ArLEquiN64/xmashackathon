@@ -6,8 +6,10 @@ public class GameManager : MonoBehaviour {
 
 	public static float LeftLimit = -10;//画面端
 	public static float RightLimit = 10;
-	public static float UpLimit = 6;
-	public static float Z=0;//基本のZ座標
+	public static float UpLimit = 7.232172f;
+	public static float Z=-26.64f;//基本のZ座標
+
+
 
 	// Use this for initialization
 	void Start () {
