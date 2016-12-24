@@ -21,6 +21,9 @@ public class Player: MonoBehaviour {
     void Update() {
         IsRun = false;
         AnimatorStateInfo state = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+        if (state.fullPathHash == Animator.StringToHash("Base Layer.Standing_React_Large_From_Back")) {
+            IsInvincibleTime = 60;
+        }
         if (state.fullPathHash != Animator.StringToHash("Base Layer.Standing_React_Large_From_Back")) {
             GetComponentInChildren<Renderer>().enabled = true;
             if (IsInvincibleTime > 0) {
@@ -62,7 +65,6 @@ public class Player: MonoBehaviour {
             if (other.tag == "Snow") {
                 Debug.Log("Snow hit.");
                 Destroy(other.gameObject);
-                IsInvincibleTime = 60;
                 Life -= 1;
                 GetComponent<Animator>().SetTrigger("Damage");
                 if (Life <= 0) {
