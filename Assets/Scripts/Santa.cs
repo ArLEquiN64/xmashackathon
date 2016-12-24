@@ -50,7 +50,6 @@ public class Santa : MonoBehaviour
 
     public void generatePresent(){//プレゼント生成
 		Instantiate (this.PresentBox, this.transform.position,Quaternion.identity);
-		Debug.Log ("asdasdasdasdasdasdasdasdas");
 	}
 
 }
