@@ -16,13 +16,13 @@ public class Player: MonoBehaviour {
         if (Input.GetKey("right")) {
             transform.rotation = Quaternion.Euler(0, 90, 0);
             if (transform.position.x < GameManager.RightLimit) {
-                transform.position += transform.forward * speed;
+                transform.position += new Vector3(speed, 0, 0);
             }
         }
         if (Input.GetKey("left")) {
             transform.rotation = Quaternion.Euler(0, -90, 0);
             if (transform.position.x > GameManager.LeftLimit) {
-                transform.position += transform.forward * speed;
+                transform.position += new Vector3(-speed, 0, 0);
             }
         }
     }
