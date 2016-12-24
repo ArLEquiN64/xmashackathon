@@ -15,11 +15,15 @@ public class GameManager : MonoBehaviour {
 	public Canvas Title;
 	public GameObject Container;//プレイヤーとか。
 	public Text ScoreText;
+	public Text PlayingScoreText;
 
 	private float _startTime = -1;
 
 	void Start(){
 		GameManager.Instance = this;
+	}
+	void Update(){
+		this.PlayingScoreText.text = string.Format("score:{0}",this.PlayTime);
 	}
 
 	public void GameStart(){
