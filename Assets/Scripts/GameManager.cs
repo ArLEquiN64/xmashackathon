@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -8,16 +9,23 @@ public class GameManager : MonoBehaviour {
 	public static float RightLimit = 10;
 	public static float UpLimit = 7.232172f;
 	public static float Z=-26.64f;//基本のZ座標
+    public static float Y = 3.1f;
 
-	public static GameManager Instance;
+
+    public static GameManager Instance;
 
 	public Canvas Title;
 	public GameObject Container;//プレイヤーとか。
+	public Text ScoreText;
+	public Text PlayingScoreText;
 
 	private float _startTime = -1;
 
 	void Start(){
 		GameManager.Instance = this;
+	}
+	void Update(){
+		this.PlayingScoreText.text = string.Format("score:{0}",this.PlayTime);
 	}
 
 	public void GameStart(){
@@ -32,6 +40,7 @@ public class GameManager : MonoBehaviour {
 		//ゲーム終了
 		this.Container.SetActive (false);
 		this.Title.enabled = true;
+		this.ScoreText.text = string.Format("Score:{0}",this.PlayTime);
 		this._startTime = -1;
 	}
 	public float PlayTime{
