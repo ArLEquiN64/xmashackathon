@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class PassengerMove: MonoBehaviour
 {
-    public float Speed = 0.1f;//速度
+    public float Speed = 0.01f;//速度
+    private GameObject body;
     // Use this for initialization
     void Start ()
     {
 		if (this.Speed > 0)
         {
-            this.transform.rotation = Quaternion.Euler(0,90,0);
+            body = transform.Find("Passenger").gameObject;
+            body.transform.rotation = Quaternion.Euler(0,90,0);
         }
         else
         {
-            this.transform.rotation=Quaternion.Euler(0,-90,0);
+            body.transform.rotation=Quaternion.Euler(0,-90,0);
         }
     }
 	
