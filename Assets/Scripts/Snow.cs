@@ -12,12 +12,12 @@ public class Snow : MonoBehaviour {
 	public float Speed=0.05f;//速度
 
 	// Use this for initialization
-	void Start () {
-		Destroy (this.gameObject, 5);
+	public virtual void Start () {
+		Destroy (this.gameObject, 10);
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
 		
 		this.Direction.Normalize ();
 		this.transform.position += this.Direction * this.Speed;
