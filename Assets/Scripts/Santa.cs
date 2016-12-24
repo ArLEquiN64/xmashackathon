@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Santa : MonoBehaviour
 {
     public float PresentTimeSpan;
@@ -32,7 +33,14 @@ public class Santa : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 		var sin = Mathf.Sin (Time.time)*this._amplitude;
-		this.transform.position = new Vector3(sin+this._center,this.transform.position.y,GameManager.Z);
+        if (sin + this._center - this.transform.position.x > 0) {
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
+        else {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
+        this.transform.position = new Vector3(sin+this._center, GameManager.UpLimit + Mathf.Sin(GameManager.Instance.PlayTime * 1.2f) * 0.6f, GameManager.Z);
+       
 	}
 
     private IEnumerator genPresent()

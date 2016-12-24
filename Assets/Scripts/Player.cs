@@ -65,7 +65,7 @@ public class Player: MonoBehaviour {
                 IsInvincibleTime = 60;
                 Life -= 1;
                 GetComponent<Animator>().SetTrigger("Damage");
-                if (Life < 0) {
+                if (Life <= 0) {
                     GameManager.Instance.GameFinish();
                     GetComponent<Animator>().SetTrigger("Death");
                     Life = 3;
