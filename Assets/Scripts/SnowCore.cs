@@ -16,4 +16,8 @@ public class SnowCore : FallObj {
 		base.Update ();
 		this.transform.rotation = Quaternion.AngleAxis (Mathf.Sin(Time.time*Mathf.PI/3+this._d)*100, new Vector3 (0, 0, 1));
 	}
+
+	void Destroy(){
+		SnowGenerator.SnowCores.Remove (this.gameObject);
+	}
 }
