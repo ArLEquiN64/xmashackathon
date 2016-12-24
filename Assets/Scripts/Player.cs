@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Player: MonoBehaviour {
 
-    public float speed;
+    public int Life = 3;
+    public float Speed = 0.05f;
+    public bool IsUnderUmbrella = false;
+    public int HasPresents = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -16,21 +19,32 @@ public class Player: MonoBehaviour {
         if (Input.GetKey("right")) {
             transform.rotation = Quaternion.Euler(0, 90, 0);
             if (transform.position.x < GameManager.RightLimit) {
-                transform.position += new Vector3(speed, 0, 0);
+                transform.position += new Vector3(Speed, 0, 0);
             }
         }
         if (Input.GetKey("left")) {
             transform.rotation = Quaternion.Euler(0, -90, 0);
             if (transform.position.x > GameManager.LeftLimit) {
-                transform.position += new Vector3(-speed, 0, 0);
+                transform.position += new Vector3(-Speed, 0, 0);
             }
+        }
+
+        if (Input.GetKey("up")) {
+
         }
     }
 
-	void OnCollisionEnter(Collision collision) {
-		Debug.Log ("jahgsfkasf");
-		if(collision.gameObject.GetComponent<Snow>()!=null){
-			Debug.Log ("hit!!!!");
-		}
-	}
+    private void OnTriggerEnter(Collider other) {
+        Debug.Log(other);
+        if (other.tag == "Snow") {
+            Debug.Log("Snow hit.");
+        }
+        if (other.tag == "PresentBox") {
+            Debug.Log("Present Box hit.");
+            HasPresents += 1;
+        }
+        if (other.tag == "Item") {
+            Debug.Log("Item hit.");
+        }
+    }    
 }
