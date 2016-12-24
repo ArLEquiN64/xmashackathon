@@ -38,6 +38,11 @@ public class Player: MonoBehaviour {
         Debug.Log(other);
         if (other.tag == "Snow") {
             Debug.Log("Snow hit.");
+            Life -= 1;
+            if(Life < 0) {
+                GameManager.Instance.GameFinish();
+                Life = 3;
+            }
         }
         if (other.tag == "PresentBox") {
             Debug.Log("Present Box hit.");
@@ -46,5 +51,15 @@ public class Player: MonoBehaviour {
         if (other.tag == "Item") {
             Debug.Log("Item hit.");
         }
-    }    
+        if (other.tag == "Umbrella") {
+            Debug.Log("Umbrella enter.");
+            IsUnderUmbrella = true;
+        }
+    }
+    private void OnTriggerExit(Collider other) {
+        if (other.tag == "Umbrella") {
+            Debug.Log("Umbrella leave.");
+            IsUnderUmbrella = false;
+        }
+    }
 }
