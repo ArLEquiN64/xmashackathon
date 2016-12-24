@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SnowCore : Snow {
+public class SnowCore : FallObj {
 	private float _d;
 
 	// Use this for initialization
