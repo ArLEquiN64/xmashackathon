@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour {
 
 	public Canvas Title;
 	public GameObject Container;//プレイヤーとか。
+	public Text ScoreText;
 
 	private float _startTime = -1;
 
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour {
 		//ゲーム終了
 		this.Container.SetActive (false);
 		this.Title.enabled = true;
+		this.ScoreText.text = string.Format("Score:{0}",this.PlayTime);
 		this._startTime = -1;
 	}
 	public float PlayTime{
