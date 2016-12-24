@@ -45,7 +45,7 @@ public class Player: MonoBehaviour {
             }
         }
         if (other.tag == "PresentBox") {
-            Debug.Log("Present Box hit.");
+			Destroy (other.gameObject);
             HasPresents += 1;
         }
         if (other.tag == "Item") {
