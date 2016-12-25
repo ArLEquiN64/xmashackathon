@@ -41,7 +41,7 @@ public class Player: MonoBehaviour {
 			transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0);
 		}
 
-		if (!this.UnderUmbrella) {//傘じゃない
+		if (!this.UnderUmbrella && !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Damage")) {//傘じゃない
 			Direction = 0;
 			if (Input.GetKey("right")) {
 				Direction = 1;
@@ -160,7 +160,7 @@ public class Player: MonoBehaviour {
     }
 
 	private void _invincibleControll(){//無敵なら点滅。そうでなければ点灯
-		if (this._currentInvincibleTimeRemaining > 0) {
+		if (this._currentInvincibleTimeRemaining > 0 && !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Damage")) {
 			this._currentInvincibleTimeRemaining -= Time.deltaTime;
 
 			var en = Mathf.FloorToInt(this._currentInvincibleTimeRemaining * 5) % 2 == 0;
