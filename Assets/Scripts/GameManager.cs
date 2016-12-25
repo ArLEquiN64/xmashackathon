@@ -19,6 +19,11 @@ public class GameManager : MonoBehaviour {
 	public Text ScoreText;
 	public Text PlayingScoreText;
 	public Player Player;
+	public AudioSource AudioSource;
+	public AudioClip BGM;
+	public AudioClip Opening;
+	public AudioClip GameOver;
+	public AudioClip Extend;
 
 	public Text HPText;
 	public Text PresentText;
@@ -40,6 +45,8 @@ public class GameManager : MonoBehaviour {
 		this._startTime = Time.time;
 		this.Title.enabled = false;
 		this.Container.SetActive (true);
+		this.AudioSource.clip = this.BGM;
+		this.AudioSource.Play ();
 
 	}
 
@@ -59,6 +66,8 @@ public class GameManager : MonoBehaviour {
 
 		this.ScoreText.text = string.Format("HiScore:{0}\nScore:{1}",this._hiScore,score);
 		this._startTime = -1;
+		this.AudioSource.clip = this.GameOver;
+		this.AudioSource.Play ();
 	}
 	public float PlayTime{
 		get{
