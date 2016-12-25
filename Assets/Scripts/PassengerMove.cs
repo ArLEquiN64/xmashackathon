@@ -30,6 +30,13 @@ public class PassengerMove: MonoBehaviour
 	    {
 	        this.transform.position +=new Vector3(this.Speed,0,0);
 	    }
-        
+    }
+
+    public void StopMove() {
+        this.Speed = 0;
+    }
+
+    public void StartMove(float speed) {
+        this.Speed = speed;
     }
 }

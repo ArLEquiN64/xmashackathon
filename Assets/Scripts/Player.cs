@@ -6,12 +6,14 @@ public class Player: MonoBehaviour {
 
     public int Life = 3;
     public float Speed = 0.05f;
-    public bool IsUnderUmbrella = false;
+    public bool IsFrontPassenger = false;
+    public int UnderUmbrellaTime = 0;
     public int HasPresents = 0;
     public int Direction = 0;
 
-    public int IsInvincibleTime = 0;
+    public int InvincibleTime = 0;
     public bool IsRun = false;
+    public PassengerBase Passenger;
 
 	// Use this for initialization
 	void Start () {
@@ -26,42 +28,58 @@ public class Player: MonoBehaviour {
         }
         AnimatorStateInfo state = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
         if (state.IsName("Damage")) {
-            IsInvincibleTime = 60;
+            InvincibleTime = 60;
         }
         else {
             GetComponentInChildren<Renderer>().enabled = true;
-            if (IsInvincibleTime > 0) {
-                IsInvincibleTime -= 1;
-                if (IsInvincibleTime % 10 > 5) {
-                    GetComponentInChildren<Renderer>().enabled = false;
+            if (InvincibleTime > 0) {
+                InvincibleTime -= 1;
+                if (InvincibleTime % 10 > 5) {
+                    transform.Find("Root_M").gameObject.GetComponentInChildren<Renderer>().enabled = false;
                 }
                 else {
-                    GetComponentInChildren<Renderer>().enabled = true;
+                    transform.Find("Root_M").gameObject.GetComponentInChildren<Renderer>().enabled = true;
                 }
-                
             }
-
-            if (Input.GetKey("right")) {
-                Direction = 1;
-                transform.rotation = Quaternion.Euler(0, 90, 0);
-                if (transform.position.x < GameManager.RightLimit) {
-                    transform.position += new Vector3(Speed, 0, 0);
-                }
-                IsRun = true;
+            transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+            if (UnderUmbrellaTime > 0) {
+                UnderUmbrellaTime -= 1;
+                transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0.2f);
             }
-            if (Input.GetKey("left")) {
-                Direction = -1;
-                transform.rotation = Quaternion.Euler(0, -90, 0);
-                if (transform.position.x > GameManager.LeftLimit) {
-                    transform.position += new Vector3(-Speed, 0, 0);
+            else if(state.IsName("TurnBack") && Passenger){
+                Passenger.LeavePlayer(this);
+                Passenger = null;
+            }
+            if (!state.IsTag("Present")) {
+                if (Input.GetKey("right")) {
+                    if (state.IsName("Idle")) {
+                        UnderUmbrellaTime = 0;
+                    }
+                    Direction = 1;
+                    transform.rotation = Quaternion.Euler(0, 90, 0);
+                    if (transform.position.x < GameManager.RightLimit) {
+                        transform.position += new Vector3(Speed, 0, 0);
+                    }
+                    IsRun = true;
                 }
-                IsRun = true;
+                if (Input.GetKey("left")) {
+                    if (state.IsName("Idle")) {
+                        UnderUmbrellaTime = 0;
+                    }
+                    Direction = -1;
+                    transform.rotation = Quaternion.Euler(0, -90, 0);
+                    if (transform.position.x > GameManager.LeftLimit) {
+                        transform.position += new Vector3(-Speed, 0, 0);
+                    }
+                    IsRun = true;
+                }
             }
             GetComponent<Animator>().SetInteger("Direction", Direction);
 
             if (Input.GetKey("z")) {
-                if (IsUnderUmbrella && !state.IsTag("Present")) {
+                if (IsFrontPassenger && !state.IsTag("Present") && InvincibleTime==0) {
                     GetComponent<Animator>().SetTrigger("Present");
+                    Passenger.EnterPlayer(this);
                 }
             }
 
@@ -79,7 +97,7 @@ public class Player: MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (IsInvincibleTime == 0) {
+        if (InvincibleTime == 0 && UnderUmbrellaTime == 0) {
             if (other.tag == "Snow") {
                 Debug.Log("Snow hit.");
                 Destroy(other.gameObject);
@@ -104,13 +122,19 @@ public class Player: MonoBehaviour {
 
         if (other.tag == "Passenger") {
             Debug.Log("Passenger enter.");
-            IsUnderUmbrella = true;
+            IsFrontPassenger = true;
+            Passenger = other.gameObject.GetComponentInChildren<PassengerBase>();
         }
     }
     private void OnTriggerExit(Collider other) {
         if (other.tag == "Passenger") {
             Debug.Log("Passenger leave.");
-            IsUnderUmbrella = false;
+            IsFrontPassenger = false;
+            // other.gameObject.GetComponent<PassengerBase>().LeavePlayer(this);
         }
+    }
+
+    public void SetUnderUmbrellaTime(int time) {
+        UnderUmbrellaTime = time;
     }
 }
