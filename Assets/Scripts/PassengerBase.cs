@@ -9,7 +9,7 @@ public abstract class PassengerBase : MonoBehaviour {
 	public float Speed = 0.01f;//速度
 	private GameObject body;
 	// Use this for initialization
-	void Start() {
+	protected virtual void Start() {
 		GetComponentInChildren<Animator>().SetBool("IsWalk", true);
 		if (this.Speed > 0) {
 			body = transform.Find("Passenger").gameObject;
@@ -21,7 +21,7 @@ public abstract class PassengerBase : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update() {
+	protected virtual void Update() {
 		if (this.Speed < 0) {
 			this.transform.position += new Vector3(this.Speed, 0, 0);
 		}

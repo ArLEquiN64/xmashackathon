@@ -77,8 +77,8 @@ public class Player: MonoBehaviour {
                 }
                 GetComponent<Animator>().SetInteger("Direction", Direction);
 
-                if (Input.GetKey("z")) {
-                    if (IsFrontPassenger && !state.IsTag("Present") && InvincibleTime == 0) {
+                if (Input.GetKeyDown("z")) {
+                    if (IsFrontPassenger && !state.IsTag("Present") && InvincibleTime == 0 && HasPresents > 0) {
                         GetComponent<Animator>().SetTrigger("Present");
                         Passenger.EnterPlayer(this);
                     }
@@ -126,7 +126,7 @@ public class Player: MonoBehaviour {
         if (other.tag == "Passenger") {
             Debug.Log("Passenger enter.");
             IsFrontPassenger = true;
-            Passenger = other.gameObject.GetComponentInChildren<PassengerBase>();
+            Passenger = other.gameObject.GetComponent<PassengerBase>();
         }
     }
     private void OnTriggerExit(Collider other) {

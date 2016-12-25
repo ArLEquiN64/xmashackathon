@@ -11,11 +11,12 @@ public class NormalPassenger : PassengerBase {
 
     // Use this for initialization
     void Start() {
-        passengerMove = transform.parent.gameObject.GetComponent<PassengerMove>();
+        base.Start();
     }
 
     // Update is called once per frame
     void Update() {
+        base.Update();
         if (this._isPlayerEnter) {
             this._totalTime = Time.deltaTime;
         }
@@ -26,12 +27,13 @@ public class NormalPassenger : PassengerBase {
 
     public override void EnterPlayer(Player p) {
         this._isPlayerEnter = true;
-        passengerMove.StopMove();
+        this.StopMove();
+        p.HasPresents -= 1;
         p.SetUnderUmbrellaTime(180);
     }
 
     public override void LeavePlayer(Player p) {
         this._isPlayerEnter = false;
-        passengerMove.StartMove(0.01f);
+        this.StartMove(0.01f);
     }
 }
