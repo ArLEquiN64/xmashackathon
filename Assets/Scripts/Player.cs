@@ -135,6 +135,7 @@ public class Player: MonoBehaviour {
             if (other.tag == "PresentBox") {
                 Destroy(other.gameObject);
                 HasPresents += 1;
+				GameManager.Instance.PlayBoxSound ();
             }
             if (other.tag == "Item") {
                 Destroy(other.gameObject);

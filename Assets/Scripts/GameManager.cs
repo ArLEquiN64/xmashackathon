@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
 	public AudioClip GameOver;
 	public AudioClip Extend;
 	public AudioClip HitSnowAudio;
+	public AudioClip BoxSound;
 
 	public Text HPText;
 	public Text PresentText;
@@ -87,6 +88,11 @@ public class GameManager : MonoBehaviour {
 	public void PlayExtendSound(){
 		this.AudioSource.PlayOneShot (Extend);
 	}
+
+	public void PlayBoxSound(){
+		this.AudioSource.PlayOneShot (BoxSound);
+	}
+
 
 }
 
