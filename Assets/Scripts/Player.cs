@@ -102,11 +102,12 @@ public class Player: MonoBehaviour {
                 Debug.Log("Snow hit.");
                 Destroy(other.gameObject);
                 Life -= 1;
-                GetComponent<Animator>().SetTrigger("Damage");
-                if (Life <= 0) {
-                    GameManager.Instance.GameFinish();
+                if (Life == 0) {
+                    Invoke("Death", 3.5f);
                     GetComponent<Animator>().SetTrigger("Death");
-                    Life = 3;
+                }
+                else if(Life > 0) {
+                    GetComponent<Animator>().SetTrigger("Damage");
                 }
             }
             if (other.tag == "PresentBox") {
@@ -136,5 +137,10 @@ public class Player: MonoBehaviour {
 
     public void SetUnderUmbrellaTime(int time) {
         UnderUmbrellaTime = time;
+    }
+
+    private void Death() {
+        GameManager.Instance.GameFinish();
+        Life = 3;
     }
 }
