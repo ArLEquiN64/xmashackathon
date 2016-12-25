@@ -10,6 +10,7 @@ public class SpeedupItem : ItemBase {//スピードアップアイテム
 	public float upSpeed = 0.05f;
 
 	public override void GetItem(Player player){
+		GameManager.Instance.PlayExtendSound ();
 		Debug.Log ("TODて、klmml;,;l");
 
 		player.Speed += upSpeed;

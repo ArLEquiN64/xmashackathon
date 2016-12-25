@@ -8,6 +8,7 @@ public class CallPassengerItem : ItemBase {
 	public LateInvoke Invoker;
 
 	public override void GetItem(Player player){
+		GameManager.Instance.PlayExtendSound ();
 		var rate = this.Rate;
 		PassengerManager.Instance.PassengerTimeSpanMin *= rate;
 		PassengerManager.Instance.PassengerTimeSpanMax *= rate;
