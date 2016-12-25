@@ -6,6 +6,7 @@ public class Player: MonoBehaviour {
 
     public int Life = 3;
     public float Speed = 0.05f;
+	public Vector3 InitialPosition;
 
 //    public bool IsFrontPassenger = false;
     public int HasPresents = 0;
@@ -89,6 +90,7 @@ public class Player: MonoBehaviour {
 		}
 		this._crossingPasssenger.Clear ();
 		_isDead = false;
+		this.transform.position = this.InitialPosition;
 	}
 
 	public void ChangeUnbrella(bool underUmbrella){
