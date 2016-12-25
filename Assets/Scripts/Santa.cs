@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Santa : MonoBehaviour
 {
-    public float PresentTimeSpan;
+    public static List<GameObject> Presents = new List<GameObject>();
+    private float PresentTimeSpan;
     public GameObject PresentBox;
     public float PresentTimeSpanMin = 0.5f;
     public float PresentTimeSpanMax = 2.0f;
@@ -21,9 +22,15 @@ public class Santa : MonoBehaviour
 			StartCoroutine(this._routine);
 		}
 	}
+    public static void ClearPresents()
+    {
+        ItemGenerator.Items.ForEach(present => {
+            Destroy(present);
+        });
+    }
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		this._center = (GameManager.LeftLimit + GameManager.RightLimit) / 2;
 		this._amplitude = (GameManager.RightLimit - GameManager.LeftLimit) / 2;
 		StartCoroutine(this._routine = this.genPresent());
@@ -56,7 +63,8 @@ public class Santa : MonoBehaviour
 
 
     public void generatePresent(){//プレゼント生成
-		Instantiate (this.PresentBox, this.transform.position,Quaternion.identity);
+		var present=Instantiate (this.PresentBox, this.transform.position,Quaternion.identity);
+        Santa.Presents.Add(present.gameObject);
 	}
 
 }
