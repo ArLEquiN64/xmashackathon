@@ -2,36 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PassengerManager : MonoBehaviour {
+public class PassengerManager : MonoBehaviour
+{
 
-	public static List<GameObject> PassengerList = new List<GameObject> ();
+    public static List<GameObject> PassengerList = new List<GameObject>();
 
-	public PassengerBase[] Passengers;
+    public PassengerBase[] Passengers;
     public float PassengerTimeSpanMin = 2;
     public float PassengerTimeSpanMax = 5;
 
-	public float PassengerTimeSpan{
-		get{
-			return Random.Range(PassengerTimeSpanMin, PassengerTimeSpanMax);
-		}
-	}
+    public float PassengerTimeSpan
+    {
+        get
+        {
+            return Random.Range(PassengerTimeSpanMin, PassengerTimeSpanMax);
+        }
+    }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         StartCoroutine(genPassenger());
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-	public static void ClearPassenger(){
-		PassengerList.ForEach(p=>{
-			Destroy(p);
-		});
-		PassengerList.Clear();
-	}
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public static void ClearPassenger()
+    {
+        PassengerList.ForEach(p =>
+        {
+            Destroy(p);
+        });
+        PassengerList.Clear();
+    }
     private IEnumerator genPassenger()
     {
         // ループ
@@ -45,19 +52,24 @@ public class PassengerManager : MonoBehaviour {
 
     private void generatepassenger()
     {
-		if(!GameManager.Instance.isPlaying){
-			return;
-		}
-		var passanger = this.Passengers [Random.Range (0, this.Passengers.Length)];
-		var inst= Instantiate(passanger, new Vector3(GameManager.LeftLimit,GameManager.Y, GameManager.Z),Quaternion.identity, this.transform);
-		PassengerList.Add (inst.gameObject);
-        if(passengerdirection())
+        if (!GameManager.Instance.isPlaying)
         {
+            return;
+        }
+
+        if (passengerdirection())
+        {
+            var passanger = this.Passengers[Random.Range(0, this.Passengers.Length)];
+            var inst = Instantiate(passanger, new Vector3(GameManager.LeftLimit, GameManager.Y, GameManager.Z), Quaternion.identity, this.transform);
+            PassengerList.Add(inst.gameObject);
             inst.Speed = 0.1f;
         }
         else
         {
-			inst.Speed = -0.1f;
+            var passanger = this.Passengers[Random.Range(0, this.Passengers.Length)];
+            var inst = Instantiate(passanger, new Vector3(GameManager.RightLimit, GameManager.Y, GameManager.Z), Quaternion.identity, this.transform);
+            PassengerList.Add(inst.gameObject);
+            inst.Speed = -0.1f;
         }
     }
 
