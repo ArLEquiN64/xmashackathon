@@ -15,6 +15,7 @@ public class Parasol : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
+        Debug.Log(other.name);
         if (other.tag == "Snow") {
             Debug.Log("Snow hit on Parasol.");
             Destroy(other.gameObject);
