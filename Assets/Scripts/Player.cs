@@ -6,14 +6,23 @@ public class Player: MonoBehaviour {
 
     public int Life = 3;
     public float Speed = 0.05f;
-    public bool IsFrontPassenger = false;
-    public int UnderUmbrellaTime = 0;
+
+//    public bool IsFrontPassenger = false;
     public int HasPresents = 0;
     public int Direction = 0;
+	public bool UnderUmbrella = false;
+	public float InvincibleTime = 3;//無敵時間
 
-    public int InvincibleTime = 0;
     public bool IsRun = false;
-    public PassengerBase Passenger;
+
+	private List<GameObject> _crossingPasssenger = new List<GameObject>();
+	private float _currentInvincibleTimeRemaining = 0;
+
+	public bool IsFrontPassenger{
+		get{
+			return this._crossingPasssenger.Count != 0;
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -22,95 +31,99 @@ public class Player: MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Life > 0) {
-            IsRun = false;
-            if (Direction == 0) {
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-            }
-            AnimatorStateInfo state = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-            if (state.IsName("Damage")) {
-                InvincibleTime = 60;
-            }
-            else {
-                GetComponentInChildren<Renderer>().enabled = true;
-                if (InvincibleTime > 0) {
-                    InvincibleTime -= 1;
-                    if (InvincibleTime % 10 > 5) {
-                        transform.Find("Root_M").gameObject.GetComponentInChildren<Renderer>().enabled = false;
-                    }
-                    else {
-                        transform.Find("Root_M").gameObject.GetComponentInChildren<Renderer>().enabled = true;
-                    }
-                }
-                transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0);
-                if (UnderUmbrellaTime > 0) {
-                    UnderUmbrellaTime -= 1;
-                    transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0.2f);
-                }
-                if (UnderUmbrellaTime == 1 && Passenger) {
-                    Passenger.LeavePlayer(this);
-                    Passenger = null;
-                }
-                if (!state.IsTag("Present")) {
-                    if (Input.GetKey("right")) {
-                        if (state.IsName("Idle")) {
-                            UnderUmbrellaTime = 0;
-                        }
-                        Direction = 1;
-                        transform.rotation = Quaternion.Euler(0, 90, 0);
-                        if (transform.position.x < GameManager.RightLimit) {
-                            transform.position += new Vector3(Speed, 0, 0);
-                        }
-                        IsRun = true;
-                    }
-                    if (Input.GetKey("left")) {
-                        if (state.IsName("Idle")) {
-                            UnderUmbrellaTime = 0;
-                        }
-                        Direction = -1;
-                        transform.rotation = Quaternion.Euler(0, -90, 0);
-                        if (transform.position.x > GameManager.LeftLimit) {
-                            transform.position += new Vector3(-Speed, 0, 0);
-                        }
-                        IsRun = true;
-                    }
-                }
-                GetComponent<Animator>().SetInteger("Direction", Direction);
+		if (this.Life <= 0) {
+			return;
+		}
 
-                if (Input.GetKeyDown("z")) {
-                    if (IsFrontPassenger && !state.IsTag("Present") && InvincibleTime == 0 && HasPresents > 0) {
-                        GetComponent<Animator>().SetTrigger("Present");
-                        Passenger.EnterPlayer(this);
-                    }
-                }
+		AnimatorStateInfo state = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+		GetComponentInChildren<Renderer>().enabled = true;
 
-                if (state.IsName("Present")) {
-                    transform.rotation = Quaternion.Euler(0, 0, 0);
-                }
-                if (state.IsName("TurnBack")) {
-                    transform.rotation = Quaternion.Euler(0, -90, 0);
-                    Direction = 0;
-                }
 
-            }
+		//傘ならグレーのエフェクト
+		if (this.UnderUmbrella) {
+			transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0.2f);
+		}else{
+			transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0);
+		}
 
-            GetComponent<Animator>().SetBool("Run", IsRun);
-        }
+		if (!this.UnderUmbrella) {//傘じゃない
+			Direction = 0;
+			if (Input.GetKey("right")) {
+				Direction = 1;
+			}
+			if (Input.GetKey("left")) {
+				Direction = -1;
+			}
+
+			if (Input.GetKey("z") && IsFrontPassenger && HasPresents > 0) {
+				ChangeUnbrella (true);
+			}
+		}else{//傘
+			if (!Input.GetKey("z")) {//z放したらleave
+				ChangeUnbrella(false);
+			}
+		}
+
+
+		if (state.IsName("Present")) {
+			transform.rotation = Quaternion.Euler(0, 0, 0);
+		}
+		if (state.IsName("TurnBack")) {
+			transform.rotation = Quaternion.Euler(0, -90, 0);
+		}
+
+		GetComponent<Animator>().SetInteger("Direction", Direction);
+		GetComponent<Animator>().SetBool("Run", IsRun);
+		checkDirection (this.Direction);
+
+		this._invincibleControll ();//無敵なら点滅
     }
 
+	public void ResetState(){
+		HasPresents = 0;
+		Direction = 0;
+		UnderUmbrella = false;
+		IsRun = false;
+		if(this.UnderUmbrella){
+			this._crossingPasssenger [0].GetComponent<PassengerBase> ().LeavePlayer (this);
+		}
+		this._crossingPasssenger.Clear ();
+	}
+
+	public void ChangeUnbrella(bool underUmbrella){
+		if(this.UnderUmbrella == underUmbrella){
+			return;
+		}
+		this.UnderUmbrella = underUmbrella;
+
+		if(underUmbrella){//入る
+			if (IsFrontPassenger && HasPresents > 0) {
+				GetComponent<Animator>().SetTrigger("Present");
+				this._crossingPasssenger[0].GetComponent<PassengerBase>().EnterPlayer (this);
+				this.UnderUmbrella = true;
+				Debug.Log("ENTER");
+			}
+		}else{//出る
+			GetComponent<Animator> ().SetTrigger ("Present");
+			this._crossingPasssenger[0].GetComponent<PassengerBase>().LeavePlayer (this);
+			this.UnderUmbrella = false;
+		}
+		
+	}
+
     private void OnTriggerEnter(Collider other) {
-        if (InvincibleTime == 0 && UnderUmbrellaTime == 0) {
+		if (!this.UnderUmbrella) {
             if (other.tag == "Snow") {
                 Debug.Log("Snow hit.");
                 Destroy(other.gameObject);
                 Life -= 1;
-                if (Life == 0) {
+                if (Life <= 0) {
                     Invoke("Death", 3.5f);
                     GetComponent<Animator>().SetTrigger("Death");
-                }
-                else if(Life > 0) {
+                }else {
                     GetComponent<Animator>().SetTrigger("Damage");
                 }
+				this._currentInvincibleTimeRemaining = this.InvincibleTime;
             }
             if (other.tag == "PresentBox") {
                 Destroy(other.gameObject);
@@ -125,26 +138,54 @@ public class Player: MonoBehaviour {
         }
 
         if (other.tag == "Passenger") {
-            Debug.Log("Passenger enter.");
-            IsFrontPassenger = true;
-            Passenger = other.gameObject.GetComponent<PassengerBase>();
+			this._crossingPasssenger.Add (other.gameObject);
         }
     }
     private void OnTriggerExit(Collider other) {
         if (other.tag == "Passenger") {
-            Debug.Log("Passenger leave.");
-            IsFrontPassenger = false;
-            // other.gameObject.GetComponent<PassengerBase>().LeavePlayer(this);
+			this._crossingPasssenger.Remove (other.gameObject);
         }
     }
 
-    public void SetUnderUmbrellaTime(int time) {
-        UnderUmbrellaTime = time;
-    }
+	private void OnDamege(){
+		
+	}
 
     private void Death() {
         GameManager.Instance.GameFinish();
         Life = 3;
-		HasPresents = 0;
     }
+
+	private void _invincibleControll(){//無敵なら点滅。そうでなければ点灯
+		if (this._currentInvincibleTimeRemaining > 0) {
+			this._currentInvincibleTimeRemaining -= Time.deltaTime;
+
+			var en = Mathf.FloorToInt(this._currentInvincibleTimeRemaining * 5) % 2 == 0;
+			transform.Find ("Root_M").gameObject.GetComponentInChildren<Renderer> ().enabled = en;
+		}else{
+			GetComponentInChildren<Renderer>().enabled = true;
+		}
+	}
+
+	private void checkDirection(int direction){//directionに応じて移動、向き変更
+		if (direction == -1) {
+			transform.rotation = Quaternion.Euler(0, -90, 0);
+			if (transform.position.x > GameManager.LeftLimit) {
+				transform.position += new Vector3(-Speed, 0, 0);
+			}
+			IsRun = true;
+
+		}else if(direction==1){
+			transform.rotation = Quaternion.Euler(0, 90, 0);
+			if (transform.position.x < GameManager.RightLimit) {
+				transform.position += new Vector3(Speed, 0, 0);
+			}
+			IsRun = true;
+		}else{
+			transform.rotation = Quaternion.Euler(0, 180, 0);
+			IsRun = false;
+		}
+	}
+
+
 }

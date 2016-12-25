@@ -30,7 +30,6 @@ public class NormalPassenger : PassengerBase {
         this._isPlayerEnter = true;
         this.StopMove();
         p.HasPresents -= 1;
-        p.SetUnderUmbrellaTime(180);
     }
 
     public override void LeavePlayer(Player p) {
