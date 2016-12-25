@@ -41,7 +41,7 @@ public class Player: MonoBehaviour {
 			transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0);
 		}
 
-		if (!this.UnderUmbrella) {//傘じゃない
+		if (!this.UnderUmbrella && !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Damage")) {//傘じゃない
 			Direction = 0;
 			if (Input.GetKey("right")) {
 				Direction = 1;
@@ -58,21 +58,25 @@ public class Player: MonoBehaviour {
 				ChangeUnbrella(false);
 			}
 		}
-
+        
 		var animetor = GetComponent<Animator> ();
-		AnimatorStateInfo state = animetor.GetCurrentAnimatorStateInfo(0);
-		if (state.IsName("Present")) {
-			transform.rotation = Quaternion.Euler(0, 0, 0);
-		}
-		if (state.IsName("TurnBack")) {
-			transform.rotation = Quaternion.Euler(0, -90, 0);
-		}
+		AnimatorStateInfo state = animetor.GetCurrentAnimatorStateInfo(0);//TODO:ダメージ中は操作禁止
+
 
 		animetor.SetInteger("Direction", Direction);
 		animetor.SetBool("Run", IsRun);
 		checkDirection (this.Direction);
+        if (state.IsName("TurnRight")) {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
+        if (state.IsName("Present")) {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        if (state.IsName("TurnBack")) {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
 
-		this._invincibleControll ();//無敵なら点滅
+        this._invincibleControll ();//無敵なら点滅
     }
 
 	public void ResetState(){
@@ -94,14 +98,14 @@ public class Player: MonoBehaviour {
 		this.UnderUmbrella = underUmbrella;
 
 		if(underUmbrella){//入る
-			if (IsFrontPassenger && HasPresents > 0) {
-				GetComponent<Animator>().SetTrigger("Present");
-				this._crossingPasssenger[0].GetComponent<PassengerBase>().EnterPlayer (this);
-				this.UnderUmbrella = true;
-				Debug.Log("ENTER");
-			}
+            if (IsFrontPassenger && HasPresents > 0) {
+                this._crossingPasssenger[0].GetComponent<PassengerBase>().EnterPlayer(this);
+                GetComponent<Animator>().SetTrigger("Present");
+                this.UnderUmbrella = true;
+                Debug.Log("ENTER");
+            }
 		}else{//出る
-			GetComponent<Animator> ().SetTrigger ("Present");
+			GetComponent<Animator> ().SetTrigger ("Leave");
 			this._crossingPasssenger[0].GetComponent<PassengerBase>().LeavePlayer (this);
 			this.UnderUmbrella = false;
 		}
@@ -157,7 +161,7 @@ public class Player: MonoBehaviour {
     }
 
 	private void _invincibleControll(){//無敵なら点滅。そうでなければ点灯
-		if (this._currentInvincibleTimeRemaining > 0) {
+		if (this._currentInvincibleTimeRemaining > 0 && !GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Damage")) {
 			this._currentInvincibleTimeRemaining -= Time.deltaTime;
 
 			var en = Mathf.FloorToInt(this._currentInvincibleTimeRemaining * 5) % 2 == 0;

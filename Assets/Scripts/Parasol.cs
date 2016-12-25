@@ -22,10 +22,8 @@ public class Parasol : MonoBehaviour {
         }
         if (other.tag == "PresentBox") {
             Debug.Log("PresentBox hit on Parasol.");
-            Destroy(other.gameObject);
         }
         if (other.tag == "Item") {
-            Destroy(other.gameObject);
             Debug.Log("Item hit on Parasol.");
         }
     }

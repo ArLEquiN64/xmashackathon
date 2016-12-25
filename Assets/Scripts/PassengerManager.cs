@@ -5,6 +5,8 @@ using UnityEngine;
 public class PassengerManager : MonoBehaviour
 {
 
+	public static PassengerManager Instance;
+
     public static List<GameObject> PassengerList = new List<GameObject>();
 
     public PassengerBase[] Passengers;
@@ -22,13 +24,8 @@ public class PassengerManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+		Instance = this;
         StartCoroutine(genPassenger());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public static void ClearPassenger()

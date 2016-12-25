@@ -10,12 +10,12 @@ public class NormalPassenger : PassengerBase {
     private float _totalTime = 0;
 
     // Use this for initialization
-    void Start() {
+	protected override void Start() {
         base.Start();
     }
 
     // Update is called once per frame
-    void Update() {
+	protected override void Update() {
         base.Update();
         if (this._isPlayerEnter) {
             this._totalTime += Time.deltaTime;
