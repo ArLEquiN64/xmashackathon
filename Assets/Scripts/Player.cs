@@ -102,6 +102,7 @@ public class Player: MonoBehaviour {
                 this._crossingPasssenger[0].GetComponent<PassengerBase>().EnterPlayer(this);
                 GetComponent<Animator>().SetTrigger("Present");
                 this.UnderUmbrella = true;
+                Direction = 0;
                 Debug.Log("ENTER");
             }
 		}else{//出る
