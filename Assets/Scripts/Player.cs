@@ -117,6 +117,7 @@ public class Player: MonoBehaviour {
                 HasPresents += 1;
             }
             if (other.tag == "Item") {
+                Destroy(other.gameObject);
                 Debug.Log("Item hit.");
                 var item = other.gameObject.GetComponent<ItemBase>();
                 item.GetItem(this);
