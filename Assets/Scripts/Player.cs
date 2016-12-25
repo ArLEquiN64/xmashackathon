@@ -35,7 +35,6 @@ public class Player: MonoBehaviour {
 			return;
 		}
 
-		AnimatorStateInfo state = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 		GetComponentInChildren<Renderer>().enabled = true;
 
 
@@ -63,9 +62,12 @@ public class Player: MonoBehaviour {
 				ChangeUnbrella(false);
 			}
 		}
+        
+		var animetor = GetComponent<Animator> ();
+		AnimatorStateInfo state = animetor.GetCurrentAnimatorStateInfo(0);
 
-		GetComponent<Animator>().SetInteger("Direction", Direction);
-		GetComponent<Animator>().SetBool("Run", IsRun);
+		animetor.SetInteger("Direction", Direction);
+		animetor.SetBool("Run", IsRun);
 		checkDirection (this.Direction);
         if (state.IsName("TurnRight")) {
             transform.rotation = Quaternion.Euler(0, -90, 0);
