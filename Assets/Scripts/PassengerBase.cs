@@ -7,16 +7,15 @@ public abstract class PassengerBase : MonoBehaviour {
     public abstract void LeavePlayer(Player p);
 
 	public float Speed = 0.01f;//速度
-	private GameObject body;
+	public GameObject Body;
 	// Use this for initialization
 	protected virtual void Start() {
 		GetComponentInChildren<Animator>().SetBool("IsWalk", true);
 		if (this.Speed > 0) {
-			body = transform.Find("Passenger").gameObject;
-			body.transform.rotation = Quaternion.Euler(0, 90, 0);
+			this.Body.transform.rotation = Quaternion.Euler(0, 90, 0);
 		}
 		else {
-			body.transform.rotation = Quaternion.Euler(0, -90, 0);
+			this.Body.transform.rotation = Quaternion.Euler(0, -90, 0);
 		}
 	}
 
