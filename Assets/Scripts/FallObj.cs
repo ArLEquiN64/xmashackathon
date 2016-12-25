@@ -10,7 +10,7 @@ public class FallObj : MonoBehaviour {
 
 	// Use this for initialization
 	public virtual void Start () {
-		Destroy (this.gameObject, this.DestroyTime);
+		//	Destroy (this.gameObject, this.DestroyTime);
 	}
 
 	// Update is called once per frame
@@ -18,5 +18,15 @@ public class FallObj : MonoBehaviour {
 
 		this.Direction.Normalize ();
 		this.transform.position += this.Direction * this.Speed;
+	}
+
+
+
+
+
+	private void OnTriggerExit (Collider other){
+		if (other.tag == "Ground") {
+			Destroy (this.gameObject);
+		}
 	}
 }

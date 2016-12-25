@@ -2,13 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Threading;
+
 public class SpeedupItem : ItemBase {//スピードアップアイテム
+	public LateInvoke Invoker;
+	public float lastingTime = 5; 
+
 	public override void GetItem(Player player){
-		player.Speed += 0.05f;
-		new WaitForSeconds (5);
-		player.Speed -= 0.05f;
-		Debug.Log ("TODO:player.Speedを増やして、一定時間後戻す！");
+		Debug.Log ("TODて、klmml;,;l");
+
+		player.Speed += lastingTime;
+
+		var a = Instantiate (Invoker);
+		a.Time = 5f;
+		a.Action = () => {
+			player.Speed -= 0.05f;
+		};
+
 	}
-
-
 }
