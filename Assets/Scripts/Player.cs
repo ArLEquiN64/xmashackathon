@@ -42,10 +42,10 @@ public class Player: MonoBehaviour {
                         transform.Find("Root_M").gameObject.GetComponentInChildren<Renderer>().enabled = true;
                     }
                 }
-                transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+                transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0);
                 if (UnderUmbrellaTime > 0) {
                     UnderUmbrellaTime -= 1;
-                    transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0.2f);
+                    transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0.2f);
                 }
                 if (UnderUmbrellaTime == 1 && Passenger) {
                     Passenger.LeavePlayer(this);
