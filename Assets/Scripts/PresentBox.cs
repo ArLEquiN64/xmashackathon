@@ -2,23 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PresentBox : MonoBehaviour {
-    /*
-	 * 移動管理。当たり判定はプレイヤーで実装。
-	 * 
-	*/
-
-    public Vector3 Direction = new Vector3(0, -1, 0);//移動方向
-    public float Speed = 0.03f;//速度
-
+public class PresentBox :FallObj {
     // Use this for initialization
     void Start () {
-        Destroy(this.gameObject, 5);
+        base.Start();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        this.Direction.Normalize();
-        this.transform.position += this.Direction * this.Speed;
+        base.Update();
+    }
+    void Destroy()
+    {
+        Santa.Presents.Remove(this.gameObject);
     }
 }

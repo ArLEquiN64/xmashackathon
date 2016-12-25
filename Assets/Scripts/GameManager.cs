@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour {
 		//ゲーム終了
 		SnowGenerator.ClearSnowCores ();
         ItemGenerator.ClearItems();
-		PassengerManager.ClearPassenger ();
+        Santa.ClearPresents();
 		this.Player.ResetState ();
 		var score = this.PlayTime;
 		this._hiScore = Mathf.Max (this._hiScore, score);
