@@ -22,78 +22,80 @@ public class Player: MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        IsRun = false;
-        if(Direction == 0) {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-        AnimatorStateInfo state = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-        if (state.IsName("Damage")) {
-            InvincibleTime = 60;
-        }
-        else {
-            GetComponentInChildren<Renderer>().enabled = true;
-            if (InvincibleTime > 0) {
-                InvincibleTime -= 1;
-                if (InvincibleTime % 10 > 5) {
-                    transform.Find("Root_M").gameObject.GetComponentInChildren<Renderer>().enabled = false;
-                }
-                else {
-                    transform.Find("Root_M").gameObject.GetComponentInChildren<Renderer>().enabled = true;
-                }
+        if (Life > 0) {
+            IsRun = false;
+            if (Direction == 0) {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
             }
-            transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
-            if (UnderUmbrellaTime > 0) {
-                UnderUmbrellaTime -= 1;
-                transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0.2f);
+            AnimatorStateInfo state = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+            if (state.IsName("Damage")) {
+                InvincibleTime = 60;
             }
-            if(UnderUmbrellaTime == 1 && Passenger){
-                Passenger.LeavePlayer(this);
-                Passenger = null;
-            }
-            if (!state.IsTag("Present")) {
-                if (Input.GetKey("right")) {
-                    if (state.IsName("Idle")) {
-                        UnderUmbrellaTime = 0;
+            else {
+                GetComponentInChildren<Renderer>().enabled = true;
+                if (InvincibleTime > 0) {
+                    InvincibleTime -= 1;
+                    if (InvincibleTime % 10 > 5) {
+                        transform.Find("Root_M").gameObject.GetComponentInChildren<Renderer>().enabled = false;
                     }
-                    Direction = 1;
-                    transform.rotation = Quaternion.Euler(0, 90, 0);
-                    if (transform.position.x < GameManager.RightLimit) {
-                        transform.position += new Vector3(Speed, 0, 0);
+                    else {
+                        transform.Find("Root_M").gameObject.GetComponentInChildren<Renderer>().enabled = true;
                     }
-                    IsRun = true;
                 }
-                if (Input.GetKey("left")) {
-                    if (state.IsName("Idle")) {
-                        UnderUmbrellaTime = 0;
+                transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+                if (UnderUmbrellaTime > 0) {
+                    UnderUmbrellaTime -= 1;
+                    transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0.2f);
+                }
+                if (UnderUmbrellaTime == 1 && Passenger) {
+                    Passenger.LeavePlayer(this);
+                    Passenger = null;
+                }
+                if (!state.IsTag("Present")) {
+                    if (Input.GetKey("right")) {
+                        if (state.IsName("Idle")) {
+                            UnderUmbrellaTime = 0;
+                        }
+                        Direction = 1;
+                        transform.rotation = Quaternion.Euler(0, 90, 0);
+                        if (transform.position.x < GameManager.RightLimit) {
+                            transform.position += new Vector3(Speed, 0, 0);
+                        }
+                        IsRun = true;
                     }
-                    Direction = -1;
+                    if (Input.GetKey("left")) {
+                        if (state.IsName("Idle")) {
+                            UnderUmbrellaTime = 0;
+                        }
+                        Direction = -1;
+                        transform.rotation = Quaternion.Euler(0, -90, 0);
+                        if (transform.position.x > GameManager.LeftLimit) {
+                            transform.position += new Vector3(-Speed, 0, 0);
+                        }
+                        IsRun = true;
+                    }
+                }
+                GetComponent<Animator>().SetInteger("Direction", Direction);
+
+                if (Input.GetKey("z")) {
+                    if (IsFrontPassenger && !state.IsTag("Present") && InvincibleTime == 0) {
+                        GetComponent<Animator>().SetTrigger("Present");
+                        Passenger.EnterPlayer(this);
+                    }
+                }
+
+                if (state.IsName("Present")) {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
+                if (state.IsName("TurnBack")) {
                     transform.rotation = Quaternion.Euler(0, -90, 0);
-                    if (transform.position.x > GameManager.LeftLimit) {
-                        transform.position += new Vector3(-Speed, 0, 0);
-                    }
-                    IsRun = true;
+                    Direction = 0;
                 }
-            }
-            GetComponent<Animator>().SetInteger("Direction", Direction);
 
-            if (Input.GetKey("z")) {
-                if (IsFrontPassenger && !state.IsTag("Present") && InvincibleTime==0) {
-                    GetComponent<Animator>().SetTrigger("Present");
-                    Passenger.EnterPlayer(this);
-                }
             }
 
-            if (state.IsName("Present")) {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-            if (state.IsName("TurnBack")) {
-                transform.rotation = Quaternion.Euler(0, -90, 0);
-                Direction = 0;
-            }
-
+            GetComponent<Animator>().SetBool("Run", IsRun);
         }
-
-        GetComponent<Animator>().SetBool("Run", IsRun);
     }
 
     private void OnTriggerEnter(Collider other) {
