@@ -64,19 +64,20 @@ public class Player: MonoBehaviour {
 			}
 		}
 
-
-		if (state.IsName("Present")) {
-			transform.rotation = Quaternion.Euler(0, 0, 0);
-		}
-		if (state.IsName("TurnBack")) {
-			transform.rotation = Quaternion.Euler(0, -90, 0);
-		}
-
 		GetComponent<Animator>().SetInteger("Direction", Direction);
 		GetComponent<Animator>().SetBool("Run", IsRun);
 		checkDirection (this.Direction);
+        if (state.IsName("TurnRight")) {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
+        if (state.IsName("Present")) {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        if (state.IsName("TurnBack")) {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
 
-		this._invincibleControll ();//無敵なら点滅
+        this._invincibleControll ();//無敵なら点滅
     }
 
 	public void ResetState(){
@@ -97,14 +98,14 @@ public class Player: MonoBehaviour {
 		this.UnderUmbrella = underUmbrella;
 
 		if(underUmbrella){//入る
-			if (IsFrontPassenger && HasPresents > 0) {
-				GetComponent<Animator>().SetTrigger("Present");
-				this._crossingPasssenger[0].GetComponent<PassengerBase>().EnterPlayer (this);
-				this.UnderUmbrella = true;
-				Debug.Log("ENTER");
-			}
+            if (IsFrontPassenger && HasPresents > 0) {
+                this._crossingPasssenger[0].GetComponent<PassengerBase>().EnterPlayer(this);
+                GetComponent<Animator>().SetTrigger("Present");
+                this.UnderUmbrella = true;
+                Debug.Log("ENTER");
+            }
 		}else{//出る
-			GetComponent<Animator> ().SetTrigger ("Present");
+			GetComponent<Animator> ().SetTrigger ("Leave");
 			this._crossingPasssenger[0].GetComponent<PassengerBase>().LeavePlayer (this);
 			this.UnderUmbrella = false;
 		}
