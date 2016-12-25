@@ -18,7 +18,7 @@ public class NormalPassenger : PassengerBase {
     void Update() {
         base.Update();
         if (this._isPlayerEnter) {
-            this._totalTime = Time.deltaTime;
+            this._totalTime += Time.deltaTime;
         }
         if (this._totalTime > this.TimeLimit) {
             GameManager.Instance.GameFinish();
