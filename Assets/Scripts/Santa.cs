@@ -26,7 +26,6 @@ public class Santa : MonoBehaviour
 	void Start () {
 		this._center = (GameManager.LeftLimit + GameManager.RightLimit) / 2;
 		this._amplitude = (GameManager.RightLimit - GameManager.LeftLimit) / 2;
-        PresentTimeSpan= Random.Range(PresentTimeSpanMin, PresentTimeSpanMax);
 		StartCoroutine(this._routine = this.genPresent());
 	}
 	
@@ -49,9 +48,9 @@ public class Santa : MonoBehaviour
         while (true)
         {
             // 1秒毎にループします
-            yield return new WaitForSeconds(this.PresentTimeSpan);
-            this.generatePresent();
             this.PresentTimeSpan = Random.Range(PresentTimeSpanMin, PresentTimeSpanMax);
+            yield return new WaitForSeconds(this.PresentTimeSpan);
+            this.generatePresent();    
         }
     }
 

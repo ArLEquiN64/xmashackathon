@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour {
 	public void GameFinish(string message){
 		//ゲーム終了
 		SnowGenerator.ClearSnowCores ();
+        ItemGenerator.ClearItems();
 		var score = this.PlayTime;
 		this._hiScore = Mathf.Max (this._hiScore, score);
 		this.Container.SetActive (false);
