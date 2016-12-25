@@ -35,7 +35,6 @@ public class Player: MonoBehaviour {
 			return;
 		}
 
-		AnimatorStateInfo state = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 		GetComponentInChildren<Renderer>().enabled = true;
 
 
@@ -64,7 +63,8 @@ public class Player: MonoBehaviour {
 			}
 		}
 
-
+		var animetor = GetComponent<Animator> ();
+		AnimatorStateInfo state = animetor.GetCurrentAnimatorStateInfo(0);
 		if (state.IsName("Present")) {
 			transform.rotation = Quaternion.Euler(0, 0, 0);
 		}
@@ -72,8 +72,8 @@ public class Player: MonoBehaviour {
 			transform.rotation = Quaternion.Euler(0, -90, 0);
 		}
 
-		GetComponent<Animator>().SetInteger("Direction", Direction);
-		GetComponent<Animator>().SetBool("Run", IsRun);
+		animetor.SetInteger("Direction", Direction);
+		animetor.SetBool("Run", IsRun);
 		checkDirection (this.Direction);
 
 		this._invincibleControll ();//無敵なら点滅
