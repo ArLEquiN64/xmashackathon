@@ -70,7 +70,7 @@ public class ItemGenerator : MonoBehaviour
     private void generateItemSnowflake()
     {
         var sx = Random.Range(GameManager.LeftLimit, GameManager.RightLimit);
-        var item1 = Instantiate(ItemSnowflake, new Vector3(sx, GameManager.UpLimit + 10f, GameManager.Z), Quaternion.identity, this.transform);
+        var item1 = Instantiate(ItemSnowflake, new Vector3(sx, GameManager.UpLimit + 10f, GameManager.Z), Quaternion.Euler(90,0,0), this.transform);
         ItemGenerator.Items.Add(item1);
     }
     private void generateItemStar()
