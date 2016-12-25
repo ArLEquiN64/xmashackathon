@@ -22,6 +22,7 @@ public class NormalPassenger : PassengerBase {
         }
         if (this._totalTime > this.TimeLimit) {
             GameManager.Instance.GameFinish();
+            this._totalTime = 0;
         }
     }
 
