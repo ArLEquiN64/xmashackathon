@@ -34,6 +34,6 @@ public class NormalPassenger : PassengerBase {
 
     public override void LeavePlayer(Player p) {
         this._isPlayerEnter = false;
-        this.StartMove(0.01f);
+        this.StartMove();
     }
 }

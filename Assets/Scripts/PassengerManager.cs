@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PassengerManager : MonoBehaviour {
-	
+
+	public static List<GameObject> PassengerList = new List<GameObject> ();
+
 	public PassengerBase[] Passengers;
     public float PassengerTimeSpanMin = 2;
     public float PassengerTimeSpanMax = 5;
@@ -23,6 +25,13 @@ public class PassengerManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	public static void ClearPassenger(){
+		PassengerList.ForEach(p=>{
+			Destroy(p);
+		});
+		PassengerList.Clear();
+	}
     private IEnumerator genPassenger()
     {
         // ループ
@@ -36,17 +45,19 @@ public class PassengerManager : MonoBehaviour {
 
     private void generatepassenger()
     {
+		if(!GameManager.Instance.isPlaying){
+			return;
+		}
 		var passanger = this.Passengers [Random.Range (0, this.Passengers.Length)];
+		var inst= Instantiate(passanger, new Vector3(GameManager.LeftLimit,GameManager.Y, GameManager.Z),Quaternion.identity, this.transform);
+		PassengerList.Add (inst.gameObject);
         if(passengerdirection())
         {
-			var passenger1= Instantiate(passanger, new Vector3(GameManager.LeftLimit,GameManager.Y, GameManager.Z),Quaternion.identity, this.transform);
-            passenger1.Speed = 0.1f;
-
+            inst.Speed = 0.1f;
         }
         else
         {
-			var passenger1= Instantiate(passanger, new Vector3(GameManager.RightLimit,GameManager.Y, GameManager.Z),Quaternion.identity, this.transform);
-            passenger1.Speed = -0.1f;
+			inst.Speed = -0.1f;
         }
     }
 
