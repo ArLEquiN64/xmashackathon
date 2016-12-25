@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SnowGenerator : MonoBehaviour {
 
+	public static SnowGenerator Instance;
+
 	public static List<GameObject> SnowCores=new List<GameObject>();
 
 	public float SnowTimeSpan=0.3f;//雪が生成される間隔
@@ -18,6 +20,7 @@ public class SnowGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Instance = this;
 		StartCoroutine (genSnow ());
 	}
 
