@@ -24,7 +24,7 @@ public class Santa : MonoBehaviour
 	}
     public static void ClearPresents()
     {
-        ItemGenerator.Items.ForEach(present => {
+        Santa.Presents.ForEach(present => {
             Destroy(present);
         });
     }
