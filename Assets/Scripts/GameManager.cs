@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour {
 	public AudioClip Opening;
 	public AudioClip GameOver;
 	public AudioClip Extend;
+	public AudioClip HitSnowAudio;
 
 	public Text HPText;
 	public Text PresentText;
@@ -66,12 +67,11 @@ public class GameManager : MonoBehaviour {
 
 		this.ScoreText.text = string.Format("HiScore:{0}\nScore:{1}",this._hiScore,score);
 		this._startTime = -1;
-		this.AudioSource.clip = this.GameOver;
-		this.AudioSource.Play ();
+		this.AudioSource.PlayOneShot (GameOver);
 	}
 	public float PlayTime{
 		get{
-			return Time.time-this._startTime;//ゲーム開始からの時間TODO:実装
+			return Time.time-this._startTime;
 		}
 	}
 	public bool isPlaying{
@@ -81,7 +81,10 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void HitSnow(){//雪が当たったら呼ぶ
-		
+		this.AudioSource.PlayOneShot (HitSnowAudio);
+	}
+	public void PlayExtendSound(){
+		this.AudioSource.PlayOneShot (Extend);
 	}
 
 }

@@ -17,16 +17,12 @@ public class Player: MonoBehaviour {
 
 	private List<GameObject> _crossingPasssenger = new List<GameObject>();
 	private float _currentInvincibleTimeRemaining = 0;
+	private bool _isDead=false;
 
 	public bool IsFrontPassenger{
 		get{
 			return this._crossingPasssenger.Count != 0;
 		}
-	}
-
-	// Use this for initialization
-	void Start () {
-		
 	}
 
     // Update is called once per frame
@@ -88,6 +84,7 @@ public class Player: MonoBehaviour {
 			this._crossingPasssenger [0].GetComponent<PassengerBase> ().LeavePlayer (this);
 		}
 		this._crossingPasssenger.Clear ();
+		_isDead = false;
 	}
 
 	public void ChangeUnbrella(bool underUmbrella){
@@ -112,18 +109,21 @@ public class Player: MonoBehaviour {
 	}
 
     private void OnTriggerEnter(Collider other) {
-		if (!this.UnderUmbrella) {
+		if (!this.UnderUmbrella&&!_isDead&&this._currentInvincibleTimeRemaining<=0) {
             if (other.tag == "Snow") {
                 Debug.Log("Snow hit.");
+
+				Debug.Log (this._currentInvincibleTimeRemaining);
                 Destroy(other.gameObject);
                 Life -= 1;
                 if (Life <= 0) {
+					this._isDead = true;
                     Invoke("Death", 3.5f);
                     GetComponent<Animator>().SetTrigger("Death");
                 }else {
-                    GetComponent<Animator>().SetTrigger("Damage");
+					GetComponent<Animator>().SetTrigger("Damage");
+					this._currentInvincibleTimeRemaining = this.InvincibleTime;
                 }
-				this._currentInvincibleTimeRemaining = this.InvincibleTime;
             }
             if (other.tag == "PresentBox") {
                 Destroy(other.gameObject);
