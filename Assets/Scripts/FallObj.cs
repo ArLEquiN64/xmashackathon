@@ -6,7 +6,6 @@ public class FallObj : MonoBehaviour {
 	
 	public Vector3 Direction=new Vector3(0,-1,0);//移動方向
 	public float Speed=0.05f;//速度
-	public float DestroyTime=10;
 
 	// Use this for initialization
 	public virtual void Start () {

@@ -60,7 +60,7 @@ public class Player: MonoBehaviour {
 		}
 
 		var animetor = GetComponent<Animator> ();
-		AnimatorStateInfo state = animetor.GetCurrentAnimatorStateInfo(0);
+		AnimatorStateInfo state = animetor.GetCurrentAnimatorStateInfo(0);//TODO:ダメージ中は操作禁止
 		if (state.IsName("Present")) {
 			transform.rotation = Quaternion.Euler(0, 0, 0);
 		}

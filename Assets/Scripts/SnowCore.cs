@@ -6,13 +6,13 @@ public class SnowCore : FallObj {
 	private float _d;
 
 	// Use this for initialization
-	public virtual void Start () {
+	protected virtual void Start () {
 		base.Start ();
 		this._d = Random.Range (0f, 10f);
 	}
 
 	// Update is called once per frame
-	public virtual void Update () {
+	protected virtual void Update () {
 		base.Update ();
 		this.transform.rotation = Quaternion.AngleAxis (Mathf.Sin(Time.time*Mathf.PI/3+this._d)*100, new Vector3 (0, 0, 1));
 	}
