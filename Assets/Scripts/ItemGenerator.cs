@@ -33,7 +33,9 @@ public class ItemGenerator : MonoBehaviour
             if (GameManager.Instance.isPlaying)
             {
 				var sx = Random.Range(GameManager.LeftLimit, GameManager.RightLimit);
-				var item = Instantiate(this.ItemList[index], new Vector3(sx, GameManager.UpLimit + 10f, GameManager.Z), Quaternion.identity, this.transform);
+                var itemPrefab = this.ItemList[index];
+
+                var item = Instantiate(itemPrefab, new Vector3(sx, GameManager.UpLimit + 10f, GameManager.Z), itemPrefab.transform.rotation, this.transform);
 				ItemGenerator.Items.Add(item.gameObject);
             }
         }
