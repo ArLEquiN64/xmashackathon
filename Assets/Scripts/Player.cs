@@ -46,7 +46,7 @@ public class Player: MonoBehaviour {
                 UnderUmbrellaTime -= 1;
                 transform.Find("Effect").gameObject.GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0.2f);
             }
-            else if(state.IsName("TurnBack") && Passenger){
+            if(UnderUmbrellaTime == 1 && Passenger){
                 Passenger.LeavePlayer(this);
                 Passenger = null;
             }
