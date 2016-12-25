@@ -145,5 +145,6 @@ public class Player: MonoBehaviour {
     private void Death() {
         GameManager.Instance.GameFinish();
         Life = 3;
+		HasPresents = 0;
     }
 }
